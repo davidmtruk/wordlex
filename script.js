@@ -6,23 +6,23 @@ document.addEventListener("DOMContentLoaded", function() {
     let intentos = 5;
     let palabraSecreta = "";
 
-    // Función para obtener palabras aleatorias de 4 a 6 letras desde el API
+    
     async function obtenerPalabra() {
         try {
-            const longitud = Math.floor(Math.random() * 3) + 4; // Genera un número aleatorio entre 4 y 6
+            const longitud = Math.floor(Math.random() * 3) + 4; 
             const response = await fetch(`https://random-word-api.herokuapp.com/word?number=1&length=${longitud}`);
             if (!response.ok) {
                 throw new Error("Error al obtener la palabra aleatoria");
             }
             const data = await response.json();
-            return data[0].toUpperCase(); // Convertimos la palabra a mayúsculas
+            return data[0].toUpperCase(); 
         } catch (error) {
             console.error("Error:", error);
             return null;
         }
     }
 
-    // Función para mostrar la palabra a adivinar
+  
     async function mostrarPalabra() {
         palabraSecreta = await obtenerPalabra();
         if (palabraSecreta) {
@@ -40,14 +40,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     mostrarPalabra();
 
-    // Letras del teclado organizadas como un teclado QWERTY
+    
     const qwertyLetters = [
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
         ["Z", "X", "C", "V", "B", "N", "M", "⌫"]
     ];
 
-    // Generar teclado virtual
+   
     qwertyLetters.forEach(rowLetters => {
         const row = document.createElement("div");
         row.classList.add("keyboard-row");
@@ -63,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
         keyboard.appendChild(row);
     });
 
-    // Event listener para el botón de verificar
+   
     document.getElementById("check-btn").addEventListener("click", function() {
         const conjetura = input.value.toUpperCase();
         if (conjetura.length < 4 || conjetura.length > 6 || !/^[A-Z]+$/.test(conjetura)) {
@@ -74,13 +74,13 @@ document.addEventListener("DOMContentLoaded", function() {
         const letrasConjetura = conjetura.split("");
         const letrasPalabraSecreta = palabraSecreta.split("");
 
-        // Inicializamos los arrays para el resultado
+        
         const resultado = new Array(letrasConjetura.length).fill("gray");
 
-        // Verificamos las letras en su posición
+        
         for (let i = 0; i < letrasConjetura.length; i++) {
             if (letrasConjetura[i] === letrasPalabraSecreta[i]) {
-                resultado[i] = "green"; // Letra correcta en su lugar
+                resultado[i] = "green"; 
             }
         }
 
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (resultado[i] !== "green") {
                 const index = letrasPalabraSecreta.indexOf(letrasConjetura[i]);
                 if (index !== -1 && index !== i) {
-                    resultado[i] = "yellow"; // Letra correcta pero no en su lugar
+                    resultado[i] = "yellow";
                 }
             }
         }
