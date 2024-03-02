@@ -15,14 +15,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 throw new Error("Error al obtener la palabra aleatoria");
             }
             const data = await response.json();
-            return data[0].toUpperCase(); 
+            return data[0].toUpperCase();
         } catch (error) {
             console.error("Error:", error);
             return null;
         }
     }
 
-  
     async function mostrarPalabra() {
         palabraSecreta = await obtenerPalabra();
         if (palabraSecreta) {
@@ -40,14 +39,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
     mostrarPalabra();
 
-    
+   Y
     const qwertyLetters = [
-        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
-        ["A", "S", "D", "F", "G", "H", "J", "K", "L"],
-        ["Z", "X", "C", "V", "B", "N", "M", "⌫"]
+        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "⌫"],
+        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Enter"],
+        ["Z", "X", "C", "V", "B", "N", "M"]
     ];
 
-   
+    
     qwertyLetters.forEach(rowLetters => {
         const row = document.createElement("div");
         row.classList.add("keyboard-row");
@@ -56,15 +55,26 @@ document.addEventListener("DOMContentLoaded", function() {
             button.textContent = letter;
             button.classList.add("keyboard-btn");
             button.addEventListener("click", function() {
-                input.value += letter;
+                if (letter === "⌫") {
+                    
+                    input.value = input.value.slice(0, -1);
+                } else if (letter === "Enter") {
+                    
+                    verificarConjetura();
+                } else {
+                    
+                    input.value += letter;
+                }
             });
             row.appendChild(button);
         });
         keyboard.appendChild(row);
     });
 
-   
-    document.getElementById("check-btn").addEventListener("click", function() {
+    
+    document.getElementById("check-btn").addEventListener("click", verificarConjetura);
+
+    function verificarConjetura() {
         const conjetura = input.value.toUpperCase();
         if (conjetura.length < 4 || conjetura.length > 6 || !/^[A-Z]+$/.test(conjetura)) {
             alert("¡Entrada inválida! Por favor, ingresa una palabra de 4 a 6 letras.");
@@ -77,19 +87,19 @@ document.addEventListener("DOMContentLoaded", function() {
         
         const resultado = new Array(letrasConjetura.length).fill("gray");
 
-        
+       
         for (let i = 0; i < letrasConjetura.length; i++) {
             if (letrasConjetura[i] === letrasPalabraSecreta[i]) {
                 resultado[i] = "green"; 
             }
         }
 
-       
+        
         for (let i = 0; i < letrasConjetura.length; i++) {
             if (resultado[i] !== "green") {
                 const index = letrasPalabraSecreta.indexOf(letrasConjetura[i]);
                 if (index !== -1 && index !== i) {
-                    resultado[i] = "yellow";
+                    resultado[i] = "yellow"; 
                 }
             }
         }
@@ -104,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function() {
             contenedorWordle.appendChild(letterDiv);
         });
 
-       
+        
         intentos--;
         if (intentos === 0) {
             resultDisplay.textContent = `¡Perdiste! La palabra era: ${palabraSecreta}`;
@@ -115,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
             resultDisplay.style.color = "black";
         }
 
-       
+      
         input.value = "";
-    });
+    }
 });
