@@ -15,13 +15,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 throw new Error("Error al obtener la palabra aleatoria");
             }
             const data = await response.json();
-            return data[0].toUpperCase();
+            return data[0].toUpperCase(); 
         } catch (error) {
             console.error("Error:", error);
             return null;
         }
     }
 
+    
     async function mostrarPalabra() {
         palabraSecreta = await obtenerPalabra();
         if (palabraSecreta) {
@@ -39,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     mostrarPalabra();
 
-   Y
+    
     const qwertyLetters = [
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "⌫"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Enter"],
@@ -87,7 +88,7 @@ document.addEventListener("DOMContentLoaded", function() {
         
         const resultado = new Array(letrasConjetura.length).fill("gray");
 
-       
+        
         for (let i = 0; i < letrasConjetura.length; i++) {
             if (letrasConjetura[i] === letrasPalabraSecreta[i]) {
                 resultado[i] = "green"; 
@@ -104,15 +105,21 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-      
-        contenedorWordle.innerHTML = "";
+        
+        const intentoDiv = document.createElement("div");
+        intentoDiv.classList.add("intentos");
+
+       
         resultado.forEach((color, i) => {
             const letterDiv = document.createElement("div");
             letterDiv.textContent = letrasConjetura[i];
             letterDiv.classList.add("letter");
             letterDiv.style.backgroundColor = color;
-            contenedorWordle.appendChild(letterDiv);
+            intentoDiv.appendChild(letterDiv);
         });
+
+        
+        contenedorWordle.appendChild(intentoDiv);
 
         
         intentos--;
@@ -125,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function() {
             resultDisplay.style.color = "black";
         }
 
-      
         input.value = "";
     }
 });
