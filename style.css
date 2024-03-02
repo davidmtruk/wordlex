@@ -15,7 +15,7 @@ body {
 
 .container {
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5); 
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -27,9 +27,36 @@ h1 {
 }
 
 #wordle-container {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+.intentos {
+  display: flex;
+  flex-direction: row;
+  justify-content: center; 
+  margin-bottom: 10px;
+}
+
+.intentos .letter {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  margin-right: 5px;
+  background-color: gray;
+  color: white;
+  border-radius: 5px;
+}
+
+.intentos .letter.green {
+  background-color: green;
+}
+
+.intentos .letter.yellow {
+  background-color: yellow;
+}
 .row {
   display: flex;
   justify-content: center;
